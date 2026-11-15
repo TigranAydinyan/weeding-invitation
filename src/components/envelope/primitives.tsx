@@ -26,8 +26,21 @@ export function Reveal({
 /** Warm, soft drop shadow shared by every card in this design. */
 export const CARD_SHADOW = "shadow-[0_22px_45px_-25px_rgb(120_90_40/0.35),0_6px_14px_-6px_rgb(120_90_40/0.15)]";
 
-/** A photo mounted on a white card. */
-export function PhotoCard({ photo, sizes, className }: { photo: Photo; sizes: string; className?: string }) {
+/**
+ * A photo mounted on a white card. By default the photo keeps its own shape;
+ * pass `imageClassName` (e.g. "aspect-4/5 object-cover") to frame it instead.
+ */
+export function PhotoCard({
+  photo,
+  sizes,
+  className,
+  imageClassName,
+}: {
+  photo: Photo;
+  sizes: string;
+  className?: string;
+  imageClassName?: string;
+}) {
   return (
     <div className={cn("rounded-md bg-white p-3 sm:p-4", CARD_SHADOW, className)}>
       <Image
@@ -35,7 +48,7 @@ export function PhotoCard({ photo, sizes, className }: { photo: Photo; sizes: st
         alt={photo.alt}
         sizes={sizes}
         placeholder="blur"
-        className="block h-auto w-full rounded-sm"
+        className={cn("block h-auto w-full rounded-sm", imageClassName)}
       />
     </div>
   );

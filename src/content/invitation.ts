@@ -1,5 +1,5 @@
+import coupleChurch from "@/assets/images/mher-ani/couple-church.jpg";
 import coupleHug from "@/assets/images/mher-ani/couple-hug.jpg";
-import couplePark from "@/assets/images/mher-ani/couple-park.jpg";
 import coupleSunset from "@/assets/images/mher-ani/couple-sunset.jpg";
 import loriIllustration from "@/assets/images/mher-ani/lori-illustration.jpg";
 import venueChurch from "@/assets/images/mher-ani/venue-church.jpg";
@@ -65,7 +65,7 @@ export const wedding = {
     /** Watercolor card behind the names — its empty sky is where the text sits. */
     illustration: { src: loriIllustration, alt: "" },
     gallery: [
-      { src: couplePark, alt: "Մհերն ու Անին այգում" },
+      { src: coupleChurch, alt: "Զույգը եկեղեցու առջև" },
       { src: coupleHug, alt: "Մհերն ու Անին գրկախառնված, ժպտալով" },
     ],
     finale: { src: coupleSunset, alt: "Մհերն ու Անին մայրամուտին" },
