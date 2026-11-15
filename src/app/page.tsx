@@ -14,7 +14,6 @@ export default function InvitationPage() {
   return (
     <>
       <noscript dangerouslySetInnerHTML={{ __html: NO_SCRIPT_STYLES }} />
-
       <EnvelopeGate copy={copy.gate} music={copy.music}>
         <HeroSection />
         <main>
