@@ -78,6 +78,26 @@ export function EnvelopeGate({ children, copy, music }: EnvelopeGateProps) {
     return () => observer.disconnect();
   }, [isOpen]);
 
+  // Pause while the page is in the background (tab switched, phone locked) and
+  // resume on return — but only if it was playing when the guest left.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    let resumeOnReturn = false;
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        resumeOnReturn = !audio.paused;
+        audio.pause();
+      } else if (resumeOnReturn) {
+        resumeOnReturn = false;
+        audio.play().catch(() => {});
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
+
   function startMusic() {
     const audio = audioRef.current;
     if (!audio) return;
@@ -150,7 +170,8 @@ export function EnvelopeGate({ children, copy, music }: EnvelopeGateProps) {
             ref={audioRef}
             src={music.src}
             loop
-            preload="auto"
+            // Download only once the guest opens the envelope (play() is called on that tap).
+            preload="none"
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
           />
@@ -159,7 +180,6 @@ export function EnvelopeGate({ children, copy, music }: EnvelopeGateProps) {
               type="button"
               onClick={toggleMusic}
               aria-label={playing ? music.pauseLabel : music.playLabel}
-              aria-pressed={playing}
               className="fixed right-5 bottom-5 z-40 flex size-12 items-center justify-center rounded-full border border-champagne/70 bg-white/85 text-ink shadow-[0_10px_25px_-10px_rgb(120_90_40/0.4)] backdrop-blur transition-colors hover:bg-white motion-safe:animate-[soft-fade_600ms_ease-out]"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

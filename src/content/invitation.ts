@@ -99,11 +99,11 @@ export const copy = {
   },
   music: {
     /**
-     * Background song that starts when the envelope is opened.
-     * Put an .mp3 in /public (e.g. public/audio/wedding-song.mp3) and set
-     * the path here; leave null to hide the music button.
+     * Background song (file in /public) that starts when the envelope is opened;
+     * a play/pause button then appears bottom-right. Set to null to disable music.
+     * Current track: originally "aramo-mark-svadba-shahen-sargsyan_IPYKJYOa.mp3".
      */
-    src: null as string | null,
+    src: "/audio/wedding-song.mp3" as string | null,
     playLabel: "Միացնել երաժշտությունը",
     pauseLabel: "Դադարեցնել երաժշտությունը",
   },
