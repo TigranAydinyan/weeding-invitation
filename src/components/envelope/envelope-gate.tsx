@@ -21,6 +21,11 @@ const MUSIC_FADE_MS = 2200;
 
 const noopSubscribe = () => () => {};
 
+/** HTMLMediaElement throws for volumes outside [0, 1] (iOS ignores the setter entirely). */
+function setVolume(audio: HTMLAudioElement, value: number) {
+  audio.volume = Math.min(1, Math.max(0, value));
+}
+
 /**
  * Full-screen envelope the guest taps to "open" the invitation.
  * Opening also starts the (optional) background music — browsers only allow
@@ -30,6 +35,7 @@ export function EnvelopeGate({ children, copy, music }: EnvelopeGateProps) {
   const [phase, setPhase] = useState<Phase>("closed");
   const [playing, setPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const fadeFrameRef = useRef<number | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
@@ -98,24 +104,36 @@ export function EnvelopeGate({ children, copy, music }: EnvelopeGateProps) {
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
   }, []);
 
+  function stopFade() {
+    if (fadeFrameRef.current !== null) cancelAnimationFrame(fadeFrameRef.current);
+    fadeFrameRef.current = null;
+  }
+
+  /** Starts the song on the envelope tap and fades it in. */
   function startMusic() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.volume = 0;
+    stopFade();
+    setVolume(audio, 0);
     audio
       .play()
       .then(() => {
-        const startedAt = performance.now();
+        // Measure from the first frame's own timestamp: rAF timestamps can be
+        // slightly *earlier* than performance.now() taken before scheduling,
+        // which made the progress (and so the volume) negative.
+        let startedAt: number | undefined;
         const fadeIn = (now: number) => {
+          startedAt ??= now;
           const progress = Math.min(1, (now - startedAt) / MUSIC_FADE_MS);
-          audio.volume = progress * MUSIC_VOLUME;
-          if (progress < 1) requestAnimationFrame(fadeIn);
+          setVolume(audio, progress * MUSIC_VOLUME);
+          fadeFrameRef.current = progress < 1 ? requestAnimationFrame(fadeIn) : null;
         };
-        requestAnimationFrame(fadeIn);
+        fadeFrameRef.current = requestAnimationFrame(fadeIn);
       })
       .catch(() => {
-        // Autoplay can still be refused (e.g. silent mode); the toggle button remains.
+        // Autoplay was refused: restore the volume so the play button is audible.
+        setVolume(audio, MUSIC_VOLUME);
       });
   }
 
@@ -130,6 +148,10 @@ export function EnvelopeGate({ children, copy, music }: EnvelopeGateProps) {
     const audio = audioRef.current;
     if (!audio) return;
     if (audio.paused) {
+      // Whatever happened before (an interrupted fade, a refused autoplay),
+      // a tap on play should always be audible.
+      stopFade();
+      setVolume(audio, MUSIC_VOLUME);
       audio.play().catch(() => {});
     } else {
       audio.pause();
