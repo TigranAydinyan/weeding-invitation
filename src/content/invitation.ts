@@ -15,7 +15,7 @@ import type { Photo, ProgramItem, Venue, WeddingDate } from "./types";
 // TODO: date, times and venues below are placeholders — replace them with
 // Mher & Ani's real details (the venue photos show a different church and hall).
 const church: Venue = {
-  name: "Սուրբ Ամենափրկիչ եկեղեցի",
+  name: "Սուրբ Ամենափրկիչ",
   address: "ք. Գյումրի, Խ։ Աբովյան փ., 145",
   // St. All Saviors (Surb Amenaprkich) — exact pin from Google Maps.
   mapsQuery: "40.784088,43.8412203",
@@ -41,14 +41,14 @@ export type WeddingProgramItem = ProgramItem & { photo?: Photo };
 const program: WeddingProgramItem[] = [
   {
     time: "13:30",
-    title: "Եկեղեցի",
+    title: "Եկեղեցի ՝",
     venue: church,
     kind: "church",
     photo: { src: venueChurch, alt: "Եկեղեցին մայրամուտին" },
   },
   {
     time: "18:00",
-    title: "Հարսանեկան միջոցառում",
+    title: "Հարսանեկան միջոցառում ՝",
     venue: hall,
     kind: "celebration",
     photo: {
