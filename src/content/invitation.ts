@@ -15,20 +15,22 @@ import type { Photo, ProgramItem, Venue, WeddingDate } from "./types";
 // TODO: date, times and venues below are placeholders — replace them with
 // Mher & Ani's real details (the venue photos show a different church and hall).
 const church: Venue = {
-  name: "Սուրբ Հռիփսիմե եկեղեցի",
-  address: "ք. Էջմիածին, Մ. Մաշտոցի փ., 85 շենք",
-  mapsQuery: "Saint Hripsime Church, Mashtots St 85, Vagharshapat, Armenia",
+  name: "Սուրբ Ամենափրկիչ եկեղեցի",
+  address: "ք. Գյումրի, Խ։ Աբովյան փ., 145",
+  // St. All Saviors (Surb Amenaprkich) — exact pin from Google Maps.
+  mapsQuery: "40.784088,43.8412203",
 };
 
 const hall: Venue = {
-  name: "«Վիլլա Հիլլս» հանդիսությունների սրահ",
+  name: "«Վահագնի» ռեստորանային համալիր",
   address: "Կոտայքի մարզ, Պտղնի, 1-ին թաղամաս, 35 շ.",
-  mapsQuery: "Villa Hills, Ptghni, Kotayk, Armenia",
+  // Vahakni Pool and Garden — exact pin from Google Maps.
+  mapsQuery: "40.2193259,44.4570907",
 };
 
 const date: WeddingDate = {
   iso: "2026-12-08",
-  startsAt: "2026-12-08T14:30:00+04:00",
+  startsAt: "2026-12-08T13:30:00+04:00",
   day: "08",
   month: "12",
   year: "2026",
@@ -38,19 +40,21 @@ export type WeddingProgramItem = ProgramItem & { photo?: Photo };
 
 const program: WeddingProgramItem[] = [
   {
-    time: "14:30",
+    time: "13:30",
     title: "Եկեղեցի",
     venue: church,
     kind: "church",
     photo: { src: venueChurch, alt: "Եկեղեցին մայրամուտին" },
   },
-  { time: "17:30", title: "ԶԱԳՍ-ի արարողություն", venue: hall, kind: "ceremony" },
   {
     time: "18:00",
     title: "Հարսանեկան միջոցառում",
     venue: hall,
     kind: "celebration",
-    photo: { src: venueHall, alt: "Հանդիսությունների սրահի զարդարված սեղանները" },
+    photo: {
+      src: venueHall,
+      alt: "Հանդիսությունների սրահի զարդարված սեղանները",
+    },
   },
 ];
 
@@ -94,8 +98,9 @@ export const copy = {
     done: "Այսօր մեր մեծ օրն է",
   },
   finale: {
-    quote: ["«Սերը հանդուրժող է,", "սերը բարի է.", "Սերը երբեք չի անհետանում»"],
-    signoff: "Սիրով",
+    quote: ["Ժողովուրդ ջա՜ն, քեֆ ենք անում..."],
+    signoff:
+      "Ակնկալում ենք ձեր վերջնական պատասխանը, այդ թվում` հյուրերի թիվը, (ներառյալ երեխաները) մինչև դեկտեմբերի 1-ը:",
   },
   music: {
     /**
@@ -106,5 +111,8 @@ export const copy = {
     src: "/audio/wedding-song.mp3" as string | null,
     playLabel: "Միացնել երաժշտությունը",
     pauseLabel: "Դադարեցնել երաժշտությունը",
+  },
+  lastWords: {
+    text: "Սիրով սպասում ենք...",
   },
 };
