@@ -46,7 +46,7 @@
 
 @theme inline {
   /* Cormorant for Latin/numerals, Noto Serif Armenian for Armenian glyphs. */
-  --font-display: var(--font-cormorant), var(--font-noto-serif-armenian), Georgia, serif;
+  --font-display: var(--font-cormorant), var(--font-noto-serif-armenian), serif;
   --font-hy-sans: var(--font-noto-sans-armenian), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 

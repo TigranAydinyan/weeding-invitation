@@ -11,7 +11,10 @@ export type Photo = {
 export type Venue = {
   name: string;
   address: string;
-  /** Query passed to Google Maps when the guest taps the venue link. */
+  /**
+   * Query passed to Google Maps when the guest taps the venue link — a place
+   * name/address, or "lat,lng" coordinates for an exact pin.
+   */
   mapsQuery: string;
 };
 

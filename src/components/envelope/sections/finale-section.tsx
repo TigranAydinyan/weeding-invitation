@@ -7,6 +7,7 @@ export function FinaleSection() {
   const { groom, bride } = wedding.couple;
   const { iso, day, month, year } = wedding.date;
   const { quote, signoff } = copy.finale;
+  const { text } = copy.lastWords;
 
   return (
     <footer className="px-6 pt-16 pb-28">
@@ -29,11 +30,12 @@ export function FinaleSection() {
         <Reveal delay={350}>
           <div className="mt-12 flex flex-col items-center gap-3">
             <GoldHeart className="size-4" />
-            <p className="font-display text-lg text-ink-soft italic">{signoff}</p>
-            <p className="font-display text-3xl text-ink sm:text-4xl">
-              {groom[0]} և {bride[0]}
-            </p>
-            <time dateTime={iso} className="mt-2 text-xs tracking-[0.35em] text-ink-soft">
+            <p className="text-lg text-ink-soft italic">{signoff}</p>
+            <p className="font-display text-3xl text-ink sm:text-4xl">{text}</p>
+            <time
+              dateTime={iso}
+              className="mt-2 text-xs tracking-[0.35em] text-ink-soft"
+            >
               {day} · {month} · {year}
             </time>
           </div>
